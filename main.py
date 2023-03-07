@@ -5,7 +5,7 @@ import tkinter as tk
 def is_spam(text, SPAMKEYWORDS.JSON):
     # Load the list of spam keywords from the JSON file
     with open(SPAMKEYWORDS.JSON, 'r') as f:
-        spam_keywords = json.load(f)['spam_keywords']
+        SPAMKEYWORDS.JSON = json.load(f)['spam_keywords']
     
     # Create a regular expression pattern to match the spam keywords
     pattern = '|'.join(spam_keywords)
