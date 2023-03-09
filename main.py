@@ -9,39 +9,31 @@ f = open('SPAMKEYWORDS.json')
 # a dictionary
 data = json.load(f)
 
-def is_spam(text, SPAMKEYWORDS.json):
-    # Load the list of spam keywords from the JSON file
-    with open(SPAMKEYWORDS.json, 'r') as f:
-        SPAMKEYWORDS.json = json.load(f)['spam_keywords']
+# Load the list of spam keywords from the JSON file and create a regular expression pattern
+def load_spam_keywords():
+    with open("spam_keywords.json", 'r') as f:
+        spam_keywords = json.load(f)['spam_keywords']
+    pattern = '|'.join(spam_keywords)
+    return spam_keywords, pattern
     
-    # Create a regular expression pattern to match the spam keywords
-    pattern = '|'.join("spam_keywords")
-    
-    # Use regex to search for the pattern in the text input
+# Check if the input text is spam
+def is_spam(text):
+    spam_keywords, pattern = load_spam_keywords()
     match = re.search(pattern, text, re.IGNORECASE)
-    
-    # Return True if a match is found (i.e., the text input is spam), False otherwise
     return bool(match)
-
 
 # Create a GUI window with an input textbox for checking spam emails
 def check_spam_gui():
-    # Load the spam keywords from the JSON file
-    SPAMKEYWORDS.JSON = "spam_keywords.json"
-    with open(SPAMKEYWORDS.JSON, 'r') as f:
-        spam_keywords = json.load(f)['spam_keywords']
-    
-    # Create a regex pattern to match the spam keywords
-    pattern = '|'.join(spam_keywords)
-    
-    # Define a function to check if the input text is spam
+    spam_keywords, pattern = load_spam_keywords()
+#sjekker tekstboksen inni GUI tekstfeltet med get() methoden som tar "1.0", "end-1c" for å velge alt av tekst i feltet
     def check_spam():
-        text = input_box.get("1.0", "end-1c")  # Get the text from the input textbox
-        if is_spam(text, spam_keywords):
+        text = input_box.get("1.0", "end-1c")
+        if is_spam(text):
             result_label.config(text="The email is spam.")
         else:
             result_label.config(text="The email is not spam.")
-    
+
+    # GUI code goes here
     # Create the GUI window and input textbox
     window = tk.Tk()
     window.title("Spam Checker")
@@ -54,12 +46,14 @@ def check_spam_gui():
     check_button.pack()
     
     # Create a label to display the result
-    result_label = tk.Label(window, text="")
+    result_label = tk.Label(window, text="Test label, line 52")
     result_label.pack()
     
     # Start the GUI event loop
     window.mainloop()
 
 # Start the GUI for checking spam emails
-check_spam_gui()
+print("hello word, gui success kanskje")
+load_spam_keywords()
+
 
