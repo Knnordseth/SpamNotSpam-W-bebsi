@@ -2,13 +2,20 @@ import re
 import json
 import tkinter as tk
 
-def is_spam(text, SPAMKEYWORDS.JSON):
+#prøv å ordne loada inn json script stuff
+f = open('SPAMKEYWORDS.json')
+
+# returns JSON object as 
+# a dictionary
+data = json.load(f)
+
+def is_spam(text, SPAMKEYWORDS.json):
     # Load the list of spam keywords from the JSON file
-    with open(SPAMKEYWORDS.JSON, 'r') as f:
-        SPAMKEYWORDS.JSON = json.load(f)['spam_keywords']
+    with open(SPAMKEYWORDS.json, 'r') as f:
+        SPAMKEYWORDS.json = json.load(f)['spam_keywords']
     
     # Create a regular expression pattern to match the spam keywords
-    pattern = '|'.join(spam_keywords)
+    pattern = '|'.join("spam_keywords")
     
     # Use regex to search for the pattern in the text input
     match = re.search(pattern, text, re.IGNORECASE)
@@ -30,7 +37,7 @@ def check_spam_gui():
     # Define a function to check if the input text is spam
     def check_spam():
         text = input_box.get("1.0", "end-1c")  # Get the text from the input textbox
-        if is_spam(text, SPAMKEYWORDS.JSON):
+        if is_spam(text, spam_keywords):
             result_label.config(text="The email is spam.")
         else:
             result_label.config(text="The email is not spam.")
