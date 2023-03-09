@@ -1,5 +1,6 @@
 import re
 import json
+import threading
 import tkinter as tk
 
 #prøv å ordne loada inn json script stuff
@@ -11,7 +12,7 @@ data = json.load(f)
 
 # Load the list of spam keywords from the JSON file and create a regular expression pattern
 def load_spam_keywords():
-    with open("spam_keywords.json", 'r') as f:
+    with open("SPAMKEYWORDS.json", 'r') as f:
         spam_keywords = json.load(f)['spam_keywords']
     pattern = '|'.join(spam_keywords)
     return spam_keywords, pattern
@@ -40,20 +41,20 @@ def check_spam_gui():
     input_box = tk.Text(window, height=10, width=50)
     input_box.insert(tk.END, "Paste your email here to check for spam")
     input_box.pack()
-    
-    # Create a button to check for spam
-    check_button = tk.Button(window, text="Check for spam", command=check_spam)
+ 
+     # Create a button to check for spam, lagt til threading, fordi systemet kanskje tror at programmet er uresponsivt og lukker det.
+    check_button = tk.Button(window, text="Check for spam", command=lambda: threading.Thread(target=check_spam).start())
     check_button.pack()
     
     # Create a label to display the result
-    result_label = tk.Label(window, text="Test label, line 52")
+    result_label = tk.Label(window, text="resultat")
     result_label.pack()
     
     # Start the GUI event loop
     window.mainloop()
 
 # Start the GUI for checking spam emails
-print("hello word, gui success kanskje")
+print("hello word, gui success!")
 load_spam_keywords()
 
 
