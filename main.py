@@ -2,12 +2,14 @@ import re
 import json
 import pygame as pg
 
-# Load the list of spam keywords from the JSON file and create a regular expression pattern
-def load_spam_keywords():
+# Load the list of spam keywords from the JSON file and create a regular expression pattern, oppdatert for lowercase 2
+def load_spam_keywords(answer):
     with open("SPAMKEYWORDS.json", 'r') as f:
         spam_keywords = json.load(f)['spam_keywords']
-    pattern = '|'.join(spam_keywords)
-    return spam_keywords, pattern
+    cleaned_keywords = [keyword.strip().lower() for keyword in spam_keywords]
+    pattern = '|'.join(cleaned_keywords)
+    pattern = re.compile(pattern, flags=re.IGNORECASE)
+    return cleaned_keywords, pattern
 
 # Check if the input text is spam
 def is_spam(text):
@@ -64,7 +66,7 @@ def main():
                 # If the user clicked on the input_box rect
                 if input_box.collidepoint(event.pos):
                     # Toggle the active variable
-                    active = not active
+                    active = not active 
                 else:
                     active = False
                 # Change the current color of the input box
@@ -87,5 +89,6 @@ def main():
 
     pg.quit()
 
+__name__= '__main__'
 if __name__ == '__main__':
     main()
