@@ -1,5 +1,5 @@
 import re
-import json
+import json 
 #fjerna tkinter
 import pygame as pg #lagt til pygame
 
@@ -28,30 +28,33 @@ def check_spam_gui():
     spam_keywords, pattern = load_spam_keywords()
 #sjekker tekstboksen inni GUI tekstfeltet med get() methoden som tar "1.0", "end-1c" for å velge alt av tekst i feltet
     def check_spam():
-        text = input_box.get("1.0", "end-1c")
+        text = main.input_box.get("1.0", "end-1c")
         if is_spam(text):
-            result_label.config(text="The email is spam.")
+            newSurface.config(text="The email is spam.")
         else:
-            result_label.config(text="The email is not spam.")
+            newSurface.config(text="The email is not spam.")
 
     # GUI code goes here
     # Create the GUI window and input textbox
 
+def newSurface():
+    surface = pg.display.set_mode((500,255))
+    button = pg.draw.rect()
 
 
 def main():
     screen = pg.display.set_mode((640, 480))
-    font = pg.font.Font(None, 32)
-    clock = pg.time.Clock()
-    input_box = pg.Rect(100, 100, 140, 32)
-    color_inactive = pg.Color('lightskyblue3')
-    color_active = pg.Color('dodgerblue2')
+    font = pg.font.font(None, 32)
+    clock = pg.time.clock()
+    input_box = pg.draw.rect(100, 100, 140, 32)
+    color_inactive = pg.color('lightskyblue3')
+    color_active = pg.color('dodgerblue2')
     color = color_inactive
     active = False
     text = ''
     done = False
 
-    while not done:
+    while not done:  #for å skrive inn i tekst boksen
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 done = True
@@ -89,28 +92,20 @@ def main():
         pg.display.flip()
         clock.tick(30)
 
+
+
 running = True
 while running:
-    for event in pg.event.get():
+    for event in pg.event.get(eventtype=pg.MOUSEBUTTONDOWN):
         if event.type == pg.QUIT:
             running = False
         elif event.type == pg.MOUSEBUTTONDOWN:
             mouse_pos = pg.mouse.get_pos()
-            if rectangle_rect.collidepoint(mouse_pos):
+            if newSurface.rect.collidepoint(mouse_pos): #må ha riktig box for mouse collidepoint feature
                 check_spam_gui()
 
-running = True
-while running:
-    for event in pg.event.get():
-        if event.type == pg.QUIT:
-            running = False
-        elif event.type == pg.MOUSEBUTTONDOWN:
-            mouse_pos = pg.mouse.get_pos()
-            if rectangle_rect.collidepoint(mouse_pos):
-                check_spam()
-
     # Draw the rectangle onto the screen
-    screen.blit(rectangle_surface, rectangle_rect)
+    main.blit()
 
     # Update the display
     pg.display.update()
@@ -123,8 +118,13 @@ if __name__ == '__main__':
 
 
 # Start the GUI for checking spam emails
-print("hello word, gui success!")
-load_spam_keywords()
+print("hello word,")
+pg.init() 
+load_spam_keywords() #bruk json load function  
+check_spam_gui()     #bruke funksjonen for å vite hvilke ord som er spam.. mulig unødvendig.
+
+main.blit()          #tegne fram boxen. idk om den gjør d automatisk
+
 
 
 
