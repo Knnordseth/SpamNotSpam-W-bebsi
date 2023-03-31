@@ -50,9 +50,6 @@ else:
 
 if answer.lower()=='yes':
     exit()
-    
-if print("fuck you") = True
-    exit()
 
 while(True):
     pass

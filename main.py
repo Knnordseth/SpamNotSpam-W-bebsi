@@ -39,14 +39,14 @@ def check_spam_gui():
 
 def newSurface():
     surface = pg.display.set_mode((500,255))
-    button = pg.draw.rect()
+    button = pg.draw.Rect()
 
 
 def main():
     screen = pg.display.set_mode((640, 480))
-    font = pg.font.font(None, 32)
-    clock = pg.time.clock()
-    input_box = pg.draw.rect(100, 100, 140, 32)
+    font = pg.font.Font(None, 32) #font ... i pg skrives med stor F? idfk
+    clock = pg.time.Clock()
+    input_box = pg.draw.Rect(100, 100, 140, 32)
     color_inactive = pg.color('lightskyblue3')
     color_active = pg.color('dodgerblue2')
     color = color_inactive
@@ -94,18 +94,18 @@ def main():
 
 
 
-running = True
-while running:
-    for event in pg.event.get(eventtype=pg.MOUSEBUTTONDOWN):
-        if event.type == pg.QUIT:
-            running = False
-        elif event.type == pg.MOUSEBUTTONDOWN:
-            mouse_pos = pg.mouse.get_pos()
-            if newSurface.rect.collidepoint(mouse_pos): #må ha riktig box for mouse collidepoint feature
-                check_spam_gui()
+# running = True
+# while running:
+#     for event in pg.event.get(eventtype=pg.MOUSEBUTTONDOWN):
+#         if event.type == pg.QUIT:
+#             running = False
+#         elif event.type == pg.MOUSEBUTTONDOWN:
+#             mouse_pos = pg.mouse.get_pos()
+#             if newSurface.rect.collidepoint(mouse_pos): #må ha riktig box for mouse collidepoint feature
+#                 check_spam_gui()
 
     # Draw the rectangle onto the screen
-    main.blit()
+    #main.blit()
 
     # Update the display
     pg.display.update()
@@ -116,14 +116,34 @@ if __name__ == '__main__':
     main()
     pg.quit()
 
+    # kjør greia uten at det lukker med en gang(?)
+if __name__ == '__main__':
+    pg.init()
+    load_spam_keywords()
+    check_spam_gui()  #kan flyttes for å bare bli aktivert av en knapp
+                      #The code then enters a loop to keep the program running until the user quits the program. The loop checks for the pg.QUIT event, which is triggered when the user quits the program.
+                      #  If the pg.QUIT event is triggered, the running variable is set to False, which breaks the loop and ends the program. The main.blit() and pg.display.update() functions are called each loop iteration to draw the program window and update the display. 
+                      # Finally, the pg.quit() function is called to end the pygame video system.
+    running = True
+    while running:
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                running = False    
+        main.blit()
+        pg.display.update()
+    pg.quit()
+
 
 # Start the GUI for checking spam emails
 print("hello word,")
-pg.init() 
+pg.init()            #if the pygame video system has not been initialized, which is necessary for the program to run properly. The video system must be initialized with the pygame.init() method before any other pygame functions are called.
 load_spam_keywords() #bruk json load function  
 check_spam_gui()     #bruke funksjonen for å vite hvilke ord som er spam.. mulig unødvendig.
 
 main.blit()          #tegne fram boxen. idk om den gjør d automatisk
+pg.display.update()  #oppdatere displayet. uten denne funksjonen vil ikke noe bli vist på skjermen
+
+pg.quit()            #avslutte pygame. bør komme sist.
 
 
 
