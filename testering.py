@@ -37,18 +37,18 @@ if answer.lower()=='yes':
 spam_keywords, pattern = load_spam_keywords(answer)
 
 if re.search(pattern, answer):
-    print('Text contains SPAM keywords. Please Delete the mail you bitch and check the next one.')
+    print('Text contains SPAM keywords. Please Delete the mail you  and check the next one.')
     answer=input('do you want to close?(yes/no) :')
 if answer.lower()=='yes':
     exit()
 else:
     print('Text does not contain SPAM keywords.')
     print("close to restart")
-    answer=input('do you want to close?(yes/no..) :')
+    answer=input('do you want to close?(chess/no..) :')
     print(answer)
     print("fuck you")
 
-if answer.lower()=='yes':
+if answer.lower()=='chess':
     exit()
 
 while(True):
